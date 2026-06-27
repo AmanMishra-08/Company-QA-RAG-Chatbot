@@ -20,29 +20,6 @@ from functools import lru_cache
 from sentence_transformers import SentenceTransformer
 import faiss
 import pickle
-import time # extra
-
-
-# extra
-
-@lru_cache(maxsize=1)
-def load_embedding_model():
-    return SentenceTransformer("all-MiniLM-L6-v2")
-
-@lru_cache(maxsize=1)
-def load_faiss_and_chunks():
-    index = faiss.read_index("faiss_index.bin")
-    with open("chunks.pkl", "rb") as f:
-        chunks = pickle.load(f)
-    return index, chunks
-
-embedding_model = load_embedding_model()
-index, chunks = load_faiss_and_chunks()
-
-# extra work to check time
-
-
-
 
 # Load FAISS
 index = faiss.read_index(
@@ -58,9 +35,9 @@ with open(
 
     chunks = pickle.load(f)
 
-# embedding_model = SentenceTransformer(
-#     "BAAI/bge-m3"
-# )
+embedding_model = SentenceTransformer(
+    "all-MiniLM-L6-v2"
+)
 
 # retrieve_context()
 
@@ -110,9 +87,13 @@ def ask_rag(query):
     print(f"Retrieval total: {time.time()-t3:.2f}s") #extra
 
     prompt = f"""
-You are a helpful assistant.
+You are a professional assistant for Cyfuture company.
 
-Use ONLY the context below to answer.
+Rules:
+- Answer in a friendly and professional tone
+- Keep answers short and clear
+- Use bullet points where needed
+- If answer not in context say "I don't have information about that"
 
 Context:
 {context}
