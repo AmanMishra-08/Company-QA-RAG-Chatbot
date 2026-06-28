@@ -3,7 +3,7 @@ import inspect
 import faiss
 import pickle
 import os
-import time
+
 # Handle wrong word 
 from textblob import TextBlob, Word
 
@@ -165,7 +165,7 @@ def ask_rag(query):
     if query.strip().lower() in bye_words:
      return "Goodbye! Have a great day! 😊", "", []
 
-# HAndle wrong word (Correct spelling first)
+    # HAndle wrong word (Correct spelling first)
     query = correct_query(query)
 
     # Handle short inputs
