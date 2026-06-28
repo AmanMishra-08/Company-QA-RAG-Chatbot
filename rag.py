@@ -157,13 +157,13 @@ def ask_rag(query):
     bye_words = ["bye", "goodbye", "see you"]
 
     if query.strip().lower() in greetings:
-     return "Hello! How can I help you with Cyfuture today?", "", []
+        return "Hello! How can I help you with Cyfuture today?", "", []
 
     if query.strip().lower() in thanks:
-     return "You're welcome! Feel free to ask more questions about Cyfuture.", "", []
+        return "You're welcome! Feel free to ask more questions about Cyfuture.", "", []
 
     if query.strip().lower() in bye_words:
-     return "Goodbye! Have a great day! 😊", "", []
+        return "Goodbye! Have a great day! 😊", "", []
 
     # HAndle wrong word (Correct spelling first)
     query = correct_query(query)
