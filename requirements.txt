@@ -5,4 +5,5 @@ python-dotenv
 streamlit
 torch
 transformers
+textblob
 
