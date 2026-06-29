@@ -5,49 +5,50 @@ A Retrieval-Augmented Generation (RAG) chatbot that answers questions from compa
 [Click here to use the chatbot](https://company-app-rag-chatbot-hcy82yntbf846tdqjly95y.streamlit.app/)
 
 ## Features
--  Intelligent text chunking
--  Semantic search using FAISS
--  embedding model
--  Groq Llama 3.1 for answer generation
--  Chat-style Streamlit interface
--  Displays retrieved document context
--  Fast and accurate document question answering
+- Intelligent text chunking and semantic search
+- Spell correction for user queries
+- Greeting and farewell handler
+- Follow-up question suggestions
+- Cyfuture logo and professional UI
+- Chat-style Streamlit interface
+- Displays retrieved document context
+- Clear chat button
+- Deployed on Streamlit Cloud
 
-## 🛠 Tech Stack
-- Python
-- Streamlit
-- FAISS
-- Sentence Transformers
-- BAAI/bge-m3
-- Groq API
-- Llama 3.1-8B Instant
-- LangChain Text Splitters
-- PyPDF
+##  Tech Stack
+
+| Component | Technology |
+|---|---|
+| Embedding Model | all-MiniLM-L6-v2 |
+| Vector Database | FAISS |
+| LLM | Groq - LLaMA 3.1 8B Instant |
+| Frontend | Streamlit |
+| Spell Correction | TextBlob |
+| Language | Python |
 
 ## Project Structure
 
-```
 LLM_RAG/
+
 │
-├── app.py                 # Streamlit UI
-├── rag.py                 # RAG pipeline
-├── faiss_index.bin        # FAISS vector database
-├── chunks.pkl             # Stored document chunks
-├── .env                   # Groq API Key
-├── requirements.txt
+
+├── app.py              # Streamlit UI
+
+├── rag.py              # RAG pipeline
+
+├── faiss_index.bin     # FAISS vector database
+
+├── chunks.pkl          # Stored document chunks
+
+├── logo.png            # Cyfuture logo
+
+├── .env                # Groq API Key (not uploaded)
+
+├── requirements.txt    # Dependencies
+
 └── README.md
-```
 
-## Create FAISS Index
-
-Run your notebook or preprocessing script to:
-- Load PDF documents
-- Split into chunks
-- Generate embeddings
-- Create FAISS index
-- Save
-
-## 🔄 RAG Workflow
+## RAG Workflow
 
 ```
 User Question
