@@ -1,4 +1,4 @@
-#Company Policy Assistant (RAG Chatbot)
+Company Policy Assistant (RAG Chatbot)
 A Retrieval-Augmented Generation (RAG) chatbot that answers questions from company policy documents using FAISS, Sentence Transformers, Groq Llama 3.1, and Streamlit.
 
 ## Live Demo
