@@ -10,11 +10,29 @@ from textblob import TextBlob, Word
 def correct_query(query):
     # Manual corrections for common mistakes
     manual_corrections = {
-        "foundr": "founder",
+       "foundr": "founder",
         "foundre": "founder",
         "waht": "what",
         "compnay": "company",
-        "servces": "services"
+        "servces": "services",
+        "cifuture": "cyfuture",
+        "cyfture": "cyfuture",
+        "cyffuture": "cyfuture",
+        "locat": "location",
+        "locatd": "located",
+        "offce": "office",
+        "servc": "service",
+        "employe": "employee",
+        "employes": "employees",
+        "prodcut": "product",
+        "prodcuts": "products",
+        "contct": "contact",
+        "addrss": "address",
+        "phon": "phone",
+        "numbr": "number",
+        "websit": "website",
+        "ceo": "ceo",
+        "founderr": "founder",
     }
     
     ignore_words = ["cyfuture", "anuj", "bairathi", "faiss", "groq"]
@@ -36,22 +54,40 @@ def correct_query(query):
     return corrected
 
 #add follow up suggestions 
-def get_followup_suggestions(query):
-    suggestions = {
+def get_followup_suggestions(query, answer):
+    query_lower = query.lower()
+    answer_lower = answer.lower()
+    
+    all_suggestions = {
         "founder": [
             "When was Cyfuture founded?",
             "Where is Cyfuture headquartered?",
             "What is the CEO's vision?"
         ],
         "services": [
-            "What is Cyfuture's cloud service?",
+            "What cloud services does Cyfuture offer?",
             "Does Cyfuture provide BPO services?",
             "What industries does Cyfuture serve?"
         ],
+        "location": [
+            "How many offices does Cyfuture have?",
+            "Where is Cyfuture headquartered?",
+            "Does Cyfuture have international offices?"
+        ],
         "contact": [
-            "Where is Cyfuture located?",
-            "What is Cyfuture's email?",
-            "What is Cyfuture's phone number?"
+            "What is Cyfuture's email address?",
+            "What is Cyfuture's phone number?",
+            "Where is Cyfuture's main office?"
+        ],
+        "cloud": [
+            "What is Cyfuture's cloud pricing?",
+            "Does Cyfuture offer GPU cloud?",
+            "What is Cyfuture's uptime guarantee?"
+        ],
+        "employee": [
+            "How many employees does Cyfuture have?",
+            "How to apply for a job at Cyfuture?",
+            "What is Cyfuture's work culture?"
         ],
         "default": [
             "Who is the founder of Cyfuture?",
@@ -60,16 +96,20 @@ def get_followup_suggestions(query):
         ]
     }
     
-    query_lower = query.lower()
-    
     if "founder" in query_lower or "ceo" in query_lower:
-        return suggestions["founder"]
+        return all_suggestions["founder"]
     elif "service" in query_lower or "provide" in query_lower:
-        return suggestions["services"]
-    elif "contact" in query_lower or "phone" in query_lower:
-        return suggestions["contact"]
+        return all_suggestions["services"]
+    elif "locat" in query_lower or "office" in query_lower or "where" in query_lower:
+        return all_suggestions["location"]
+    elif "contact" in query_lower or "phone" in query_lower or "email" in query_lower:
+        return all_suggestions["contact"]
+    elif "cloud" in query_lower or "gpu" in query_lower or "server" in query_lower:
+        return all_suggestions["cloud"]
+    elif "employee" in query_lower or "staff" in query_lower or "team" in query_lower:
+        return all_suggestions["employee"]
     else:
-        return suggestions["default"]
+        return all_suggestions["default"]
 
 
 from sentence_transformers import SentenceTransformer
@@ -180,12 +220,29 @@ def ask_rag(query):
 You are a professional assistant for Cyfuture company.
 
 Rules:
-- Answer directly without any commentary
-- Never say things like "Not a question requiring" or "Good question"
-- Answer in a friendly and professional tone
-- Keep answers short and clear
-- Use bullet points where needed
-- If answer not in context say "I don't have information about that"
+- Answer directly without unnecessary commentary.
+- Answer ONLY using the provided context.
+- Never use your own knowledge or assumptions.
+- Summarize and rephrase descriptive information in your own words.
+- Do NOT summarize, modify, or invent factual information such as names, addresses, phone numbers, email addresses, URLs, dates, or identification numbers.
+- Preserve factual information exactly as it appears in the context.
+- If any part of the answer is not present in the context, do not include it.
+- Use a friendly, professional, and concise tone.
+- Never say phrases like "Good question", "According to the context", or "Not a question requiring...".
+- If the context does not contain enough information to answer the question, reply exactly:
+  "I don't have information about that."
+
+Formatting:
+- Use short paragraphs for readability.
+- Use headings when they improve clarity.
+- Use bullet points for lists, services, features, benefits, or multiple items.
+- For addresses, display each address component on a separate line without changing any details.
+- For contact information, display each item on a separate line.
+- For definitions ("What is X?"), provide a clear definition followed by a brief explanation if needed.
+- For "How" questions, explain the process in simple numbered steps.
+- For yes/no questions, answer first, then briefly explain why.
+- Keep simple factual answers (name, date, location, etc.) within 1–2 lines unless more detail is requested.
+
 
 Context:
 {context}
@@ -206,6 +263,6 @@ Answer:
    
     answer = response.choices[0].message.content
 
-    suggestions = get_followup_suggestions(query)
+    suggestions = get_followup_suggestions(query,answer)
     return answer, context, suggestions
 
