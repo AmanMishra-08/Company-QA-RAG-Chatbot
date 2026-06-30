@@ -59,14 +59,14 @@ img_base64 = get_image_base64("logo.png")
 st.markdown(f"""
     <div style='text-align: center; padding-top: 0px; margin-top: -60px;'>
         <img src='data:image/png;base64,{img_base64}' width='250'>
-        <h1 style='margin-top: 5px; margin-bottom: 0px;'>Cyfuture ChatBox ©️</h1>
+        <h1 style='margin-top: 5px; margin-bottom: 0px;'>Cyfuture ChatBox</h1>
         <p style='color: gray; margin-top: 0px;'>Your AI Company Assistant</p>
     </div>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-    <hr style='border: 1px solid blue;'>
-""", unsafe_allow_html=True)
+# st.markdown("""
+#     <hr style='border: 1px solid blue;'>
+# """, unsafe_allow_html=True)
 
 # -----------------------------
 # Initialize session state
